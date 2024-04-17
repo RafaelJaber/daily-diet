@@ -15,10 +15,13 @@ export const Logo = styled.Image`
   width: 82px;
 `;
 
-export const Avatar = styled.Image`
+export const Avatar = styled.View`
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
 
-  border: 1px solid ${({ theme }) => theme.COLORS.GRAY_2};
+  border: 2px solid ${({ theme }) => theme.COLORS.GRAY_2};
 `;
