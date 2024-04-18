@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { format } from "date-fns";
 import { SectionList } from "react-native";
 
@@ -30,11 +31,21 @@ const listMock: SnackListModel[] = [
 ];
 
 export function HomeScreen() {
+  const navigation = useNavigation();
+
+  function handleNavigateToStatistics() {
+    navigation.navigate("statistics");
+  }
+
   return (
     <AreaView>
       <HeaderComponent />
       <Container>
-        <CardSummary percent={80.8} minimalPercent={80.9} />
+        <CardSummary
+          percent={80.8}
+          minimalPercent={80.9}
+          onPress={handleNavigateToStatistics}
+        />
 
         <TextMD>Refeições</TextMD>
         <ButtonComponent text="Nova refeição" icon={"add"} />
