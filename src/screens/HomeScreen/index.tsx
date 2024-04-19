@@ -37,6 +37,10 @@ export function HomeScreen() {
     navigation.navigate("statistics");
   }
 
+  function handleNavigateToNewSnack() {
+    navigation.navigate("new");
+  }
+
   return (
     <AreaView>
       <HeaderComponent />
@@ -48,7 +52,11 @@ export function HomeScreen() {
         />
 
         <TextMD>Refeições</TextMD>
-        <ButtonComponent text="Nova refeição" icon={"add"} />
+        <ButtonComponent
+          text="Nova refeição"
+          icon={"add"}
+          onPress={handleNavigateToNewSnack}
+        />
 
         <SectionList
           sections={listMock}
