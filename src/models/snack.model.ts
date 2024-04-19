@@ -3,4 +3,5 @@ export interface SnackModel {
   description: string;
   withinTheDiet: boolean;
   date: Date;
+  time?: Date;
 }
