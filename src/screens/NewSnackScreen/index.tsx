@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -27,6 +28,7 @@ type RegisterSnakeForm = z.infer<typeof registerSnakeForm>;
 
 export function NewSnackScreen() {
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   const {
     control,
@@ -53,6 +55,7 @@ export function NewSnackScreen() {
     }
     // #TODO implementar o back
     reset();
+    navigation.navigate("feedback", { withinTheDiet: data.withinTheDiet });
   }
 
   return (
