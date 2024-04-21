@@ -11,6 +11,7 @@ import { HeaderBackIconComponent } from "@/components/HeaderBackIconComponent";
 import { InputComponent } from "@/components/InputComponent";
 import { RadioInputComponent } from "@/components/RadioInputComponent";
 import { TextAreaComponent } from "@/components/TextAreaComponent";
+import { createSnakeCollection } from "@/services/snakeService";
 
 import { Container, Content, GroupedInput } from "./styles";
 
@@ -53,9 +54,24 @@ export function NewSnackScreen() {
         "Por favor, valide os campos preenchidos.",
       );
     }
-    // #TODO implementar o back
-    reset();
-    navigation.navigate("feedback", { withinTheDiet: data.withinTheDiet });
+    createSnakeCollection({
+      name: data.name,
+      description: data.description,
+      date: data.date,
+      time: data.time,
+      withinTheDiet: true,
+    })
+      .then(() => {
+        reset();
+        navigation.navigate("feedback", { withinTheDiet: data.withinTheDiet });
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert(
+          "Cadastro de refeição",
+          "Erro ao realizar o cadastro, tente novamente.",
+        );
+      });
   }
 
   return (

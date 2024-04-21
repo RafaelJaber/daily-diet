@@ -9,7 +9,6 @@ import { ThemeProvider } from "styled-components";
 
 import { LoadingComponent } from "@/components/LoadingComponent";
 import { Routes } from "@/routes";
-import { HomeScreen } from "@/screens/HomeScreen";
 import theme from "@/theme";
 
 export default function App() {

@@ -1,14 +1,20 @@
+import { KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const SafeArea = styled(SafeAreaView)`
+  background-color: ${({ theme }) => theme.COLORS.GRAY_7};
+  padding: 24px;
+  flex: 1;
+`;
+
+export const Container = styled(KeyboardAvoidingView).attrs({
+  behavior: Platform.OS === "ios" ? "padding" : "height",
+})`
   flex: 1;
 
   justify-content: center;
   align-items: center;
-
-  background-color: ${({ theme }) => theme.COLORS.GRAY_7};
-
-  padding: 24px;
 `;
 
 export const Logo = styled.Image`

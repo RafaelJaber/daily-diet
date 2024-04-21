@@ -1,5 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { format } from "date-fns";
+import { useCallback, useState } from "react";
 import { SectionList } from "react-native";
 
 import { ButtonComponent } from "@/components/ButtonComponent";
@@ -7,31 +8,15 @@ import { CardSummary } from "@/components/CardSummary";
 import { HeaderComponent } from "@/components/HeaderComponent";
 import { ItemListComponent } from "@/components/ItemListComponent";
 import { SnackListModel } from "@/models/snack-list.model";
+import { getSnakeCollection, getUserEntry } from "@/services/snakeService";
 
 import { AreaView, Container, ListHeader, TextMD } from "./styles";
 
-const listMock: SnackListModel[] = [
-  {
-    date: new Date(),
-    data: [
-      {
-        name: "Sanduiche",
-        description: "Sanduiche cabuloso",
-        withinTheDiet: false,
-        date: new Date(),
-      },
-      {
-        name: "Sorvete",
-        description: "Sorvete cabuloso",
-        withinTheDiet: true,
-        date: new Date(),
-      },
-    ],
-  },
-];
-
 export function HomeScreen() {
   const navigation = useNavigation();
+
+  const [snakeList, setSnackList] = useState<SnackListModel[]>([]);
+  const [metric, setMetric] = useState(0);
 
   function handleNavigateToStatistics() {
     navigation.navigate("statistics");
@@ -41,13 +26,44 @@ export function HomeScreen() {
     navigation.navigate("new");
   }
 
+  function loadSnakes() {
+    getSnakeCollection().then((result) => {
+      setSnackList(result);
+    });
+  }
+
+  function loadMetric() {
+    getUserEntry().then((result) => {
+      setMetric(result.metrics);
+    });
+  }
+
+  function getPercent() {
+    let withinTheDietCount = 0;
+    let totalItens = 0;
+    snakeList.forEach((item) => {
+      item.data.forEach((element) => {
+        if (element.withinTheDiet) withinTheDietCount++;
+        totalItens++;
+      });
+    });
+    return Math.round((withinTheDietCount / totalItens) * 100);
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      loadSnakes();
+      loadMetric();
+    }, []),
+  );
+
   return (
     <AreaView>
       <HeaderComponent />
       <Container>
         <CardSummary
-          percent={80.8}
-          minimalPercent={80.9}
+          percent={getPercent()}
+          minimalPercent={metric}
           onPress={handleNavigateToStatistics}
         />
 
@@ -59,8 +75,8 @@ export function HomeScreen() {
         />
 
         <SectionList
-          sections={listMock}
-          keyExtractor={(item, index) => item.name + index}
+          sections={snakeList}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => <ItemListComponent snack={item} />}
           renderSectionHeader={({ section: { date } }) => (
             <ListHeader>{format(date, "dd.MM.yy")}</ListHeader>
