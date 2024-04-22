@@ -1,14 +1,22 @@
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { BackButton, BackIcon, Container, Title } from "./styles";
+import {
+  BackButton,
+  BackIcon,
+  Container,
+  HeaderColorProps,
+  Title,
+} from "./styles";
 
 type HeaderBackIconComponentProps = {
   title: string;
+  backgroundColor?: HeaderColorProps;
 };
 
 export function HeaderBackIconComponent({
   title,
+  backgroundColor = "GRAY",
 }: HeaderBackIconComponentProps) {
   const insets = useSafeAreaInsets();
 
@@ -23,6 +31,7 @@ export function HeaderBackIconComponent({
       style={{
         paddingTop: insets.top,
       }}
+      color={backgroundColor}
     >
       <BackButton onPress={handleNavigateHome}>
         <BackIcon />

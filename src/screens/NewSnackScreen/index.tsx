@@ -60,6 +60,7 @@ export function NewSnackScreen() {
       date: data.date,
       time: data.time,
       withinTheDiet: true,
+      id: "",
     })
       .then(() => {
         reset();

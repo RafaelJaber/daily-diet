@@ -8,7 +8,11 @@ import { CardSummary } from "@/components/CardSummary";
 import { HeaderComponent } from "@/components/HeaderComponent";
 import { ItemListComponent } from "@/components/ItemListComponent";
 import { SnackListModel } from "@/models/snack-list.model";
-import { getSnakeCollection, getUserEntry } from "@/services/snakeService";
+import {
+  getSnack,
+  getSnakeCollection,
+  getUserEntry,
+} from "@/services/snakeService";
 
 import { AreaView, Container, ListHeader, TextMD } from "./styles";
 
@@ -36,6 +40,10 @@ export function HomeScreen() {
     getUserEntry().then((result) => {
       setMetric(result.metrics);
     });
+  }
+
+  function handleItemListPressNavigate(id: string) {
+    navigation.navigate("snackDetails", { id });
   }
 
   function getPercent() {
@@ -77,7 +85,13 @@ export function HomeScreen() {
         <SectionList
           sections={snakeList}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ItemListComponent snack={item} />}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <ItemListComponent
+              snack={item}
+              onPress={() => handleItemListPressNavigate(item.id)}
+            />
+          )}
           renderSectionHeader={({ section: { date } }) => (
             <ListHeader>{format(date, "dd.MM.yy")}</ListHeader>
           )}

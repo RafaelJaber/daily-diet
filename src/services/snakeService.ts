@@ -1,11 +1,13 @@
 import { format, lastDayOfMonth } from "date-fns";
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 
@@ -72,6 +74,65 @@ export async function getSnakeCollection() {
   });
 
   return converterCollectionToListModel(collectionSnakeList);
+}
+
+export async function getSnack(id: string) {
+  const user = getUser();
+  if (!user) throw new Error("user not found");
+
+  const docRef = doc(FIREBASE_DB, `users/${user.uid}/snakes`, id);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    const snack: SnackModel = {
+      id,
+      name: docSnap.data().name,
+      description: docSnap.data().description,
+      withinTheDiet: docSnap.data().withinTheDiet,
+      time: new Date(
+        docSnap.data().time.seconds * 1000 +
+          docSnap.data().time.nanoseconds / 1000000,
+      ),
+      date: new Date(
+        docSnap.data().date.seconds * 1000 +
+          docSnap.data().date.nanoseconds / 1000000,
+      ),
+    };
+    return snack;
+  } else {
+    throw new Error("snack not found");
+  }
+}
+
+export async function updateSnake({
+  id,
+  name,
+  description,
+  date,
+  time,
+  withinTheDiet,
+}: SnackModel) {
+  const user = getUser();
+  if (!user) throw new Error("user not found");
+
+  const docRef = doc(FIREBASE_DB, `users/${user.uid}/snakes`, id);
+  console.log(withinTheDiet);
+  return updateDoc(docRef, {
+    name,
+    description,
+    date,
+    time,
+    withinTheDiet,
+  });
+}
+
+export async function deleteSnack(id: string) {
+  const user = getUser();
+  if (!user) throw new Error("user not found");
+
+  const docRef = doc(FIREBASE_DB, `users/${user.uid}/snakes`, id);
+
+  return await deleteDoc(docRef);
 }
 
 export async function createSnakeCollection({

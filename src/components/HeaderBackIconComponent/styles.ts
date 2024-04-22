@@ -2,9 +2,20 @@ import { ArrowLeft } from "phosphor-react-native";
 import { TouchableOpacity } from "react-native";
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View`
+export type HeaderColorProps = "GREEN" | "RED" | "GRAY";
+
+type HeaderBackIconProps = {
+  color: HeaderColorProps;
+};
+
+export const Container = styled.View<HeaderBackIconProps>`
   height: 140px;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_5};
+  background-color: ${({ theme, color }) =>
+    color === "GREEN"
+      ? theme.COLORS.GREEN_LIGHT
+      : color === "RED"
+        ? theme.COLORS.RED_LIGHT
+        : theme.COLORS.GRAY_5};
 
   flex-direction: row;
   justify-content: center;

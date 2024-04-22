@@ -7,7 +7,9 @@ type IconProps = {
   type: IconColorProps;
 };
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.7,
+})`
   width: 100%;
   border-radius: 6px;
   padding: 17px 16px 17px 12px;
