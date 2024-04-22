@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { SignOut } from "phosphor-react-native";
 import { Alert, Image, TouchableOpacity } from "react-native";
 
 import logoImg from "@/assets/logo.png";
@@ -24,10 +25,7 @@ export function HeaderComponent() {
       <Logo source={logoImg} />
       <TouchableOpacity activeOpacity={0.7} onPress={handleLogout}>
         <Avatar>
-          <Image
-            source={{ uri: "https://github.com/rafaeljaber.png" }}
-            style={{ height: 40, width: 40 }}
-          />
+          <SignOut size={24} color={"#1B1D1E"} weight={"fill"} />
         </Avatar>
       </TouchableOpacity>
     </Container>

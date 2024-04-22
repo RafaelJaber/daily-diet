@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { AuthLoginScreen } from "@/screens/AuthLoginScreen";
+import { AuthRegisterScreen } from "@/screens/AuthRegisterScreen";
 import { EditSnackScreen } from "@/screens/EditSnackScreen";
 import { FeedbackRegistrationScreen } from "@/screens/FeedbackRegistrationScreen";
 import { HomeScreen } from "@/screens/HomeScreen";
@@ -19,6 +20,7 @@ export function AppRoutes() {
       }}
     >
       <Screen name="login" component={AuthLoginScreen} />
+      <Screen name="register" component={AuthRegisterScreen} />
       <Screen name="home" component={HomeScreen} />
       <Screen name="statistics" component={StatisticsScreen} />
       <Screen name={"new"} component={NewSnackScreen} />

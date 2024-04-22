@@ -13,18 +13,18 @@ import { z } from "zod";
 import logoImg from "@/assets/logo.png";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { InputComponent } from "@/components/InputComponent";
-import { getUser, login } from "@/services/loginService";
+import { getUser, register } from "@/services/loginService";
 
 import { Container, FormContent, Logo, SafeArea } from "./styles";
 
-const loginSchema = z.object({
+const registerSchema = z.object({
   email: z.string(),
   password: z.string(),
 });
 
-type LoginSchemaForm = z.infer<typeof loginSchema>;
+type RegisterSchemaForm = z.infer<typeof registerSchema>;
 
-export function AuthLoginScreen() {
+export function AuthRegisterScreen() {
   const navigation = useNavigation();
   const user = getUser();
 
@@ -33,21 +33,21 @@ export function AuthLoginScreen() {
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm<LoginSchemaForm>({
+  } = useForm<RegisterSchemaForm>({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(registerSchema),
   });
 
   const inputPasswordRef = useRef<TextInput>(null);
 
-  function handleLogin(data: LoginSchemaForm) {
+  function handleLogin(data: RegisterSchemaForm) {
     if (data.email.trim().length === 0 || data.password.trim().length === 0) {
-      return Alert.alert("Login", "Verifique os campos preenchidos.");
+      return Alert.alert("Cadastro", "Verifique os campos preenchidos.");
     } else {
-      login({ email: data.email, password: data.password })
+      register({ email: data.email, password: data.password })
         .then(() => {
           navigation.navigate("home");
         })
@@ -61,8 +61,8 @@ export function AuthLoginScreen() {
     }
   }
 
-  function handleNavigateRegister() {
-    navigation.navigate("register");
+  function handleNavigateLogin() {
+    navigation.navigate("login");
   }
 
   useEffect(() => {
@@ -124,8 +124,8 @@ export function AuthLoginScreen() {
             />
 
             <ButtonComponent
-              text={"Login"}
-              icon={"login"}
+              text={"Criar conta"}
+              icon={"app-registration"}
               onPress={handleSubmit(handleLogin)}
               disabled={isSubmitting}
             />
@@ -133,10 +133,10 @@ export function AuthLoginScreen() {
         </Container>
       </TouchableWithoutFeedback>
       <ButtonComponent
-        text={"Registrar"}
+        text={"Login"}
         type={"SECONDARY"}
-        icon={"app-registration"}
-        onPress={handleNavigateRegister}
+        icon={"login"}
+        onPress={handleNavigateLogin}
       />
     </SafeArea>
   );
